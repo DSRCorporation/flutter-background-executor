@@ -19,7 +19,7 @@
 import Foundation
 
 enum Definitions {
-    static let methodChannel = "app_background_executor"
+    static let methodChannel = "flutter_background_executor"
     static let backgroundMethodChannelSuffix = "_background_task_method_channel"
     static let backgroundEventChannelSuffix = "_background_task_event_channel"
     

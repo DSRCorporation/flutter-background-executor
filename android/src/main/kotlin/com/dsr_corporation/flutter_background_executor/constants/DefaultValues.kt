@@ -16,18 +16,14 @@
  *    limitations under the License.
  */
 
-import 'package:flutter_background_executor/src/models/received_message.dart';
+package com.dsr_corporation.flutter_background_executor.constants
 
-typedef MessageSender = Future<bool> Function({String? to, bool commonMessage, required String message});
+import com.dsr_corporation.flutter_background_executor.dtos.AndroidNetworkType
 
-class EngineConnector {
-  final Stream<ReceivedMessage> messageStream;
-  final MessageSender messageSender;
-  final String currentTaskIdentifier;
-
-  EngineConnector({
-    required this.messageStream,
-    required this.messageSender,
-    required this.currentTaskIdentifier,
-  });
+object DefaultValues {
+    val requiredNetworkType = AndroidNetworkType.notRequired
+    const val requiresCharging = false
+    const val requiresBatteryNotLow = false
+    const val requiresStorageNotLow = false
+    const val requiresDeviceIdle = false
 }

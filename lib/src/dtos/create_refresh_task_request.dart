@@ -18,11 +18,11 @@
 
 import 'dart:ui';
 
-import 'package:app_background_executor/src/constants/definitions.dart';
-import 'package:app_background_executor/src/extension/models_to_map.dart';
-import 'package:app_background_executor/src/models/android_refresh_task_details.dart';
-import 'package:app_background_executor/src/models/refresh_task_settings.dart';
-import 'package:app_background_executor/src/models/ios_refresh_task_details.dart';
+import 'package:flutter_background_executor/src/constants/definitions.dart';
+import 'package:flutter_background_executor/src/extension/models_to_map.dart';
+import 'package:flutter_background_executor/src/models/android_refresh_task_details.dart';
+import 'package:flutter_background_executor/src/models/refresh_task_settings.dart';
+import 'package:flutter_background_executor/src/models/ios_refresh_task_details.dart';
 
 class CreateRefreshTaskRequest {
   final CallbackHandle callback;

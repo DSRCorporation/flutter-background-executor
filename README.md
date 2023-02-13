@@ -1,4 +1,4 @@
-# app_background_executor
+# flutter_background_executor
 
 This plugin is designed to create background update tasks. He is based on WorkManager for Android
 and BackgroundTasks for iOS.
@@ -10,7 +10,7 @@ To schedule a refresh task, call the createRefreshTask function.
 ```dart
 class Example {
   Future<void> settingRefresh() async {
-    await AppBackgroundExecutor().createRefreshTask(
+    await FlutterBackgroundExecutor().createRefreshTask(
       callback: call,
       settings: BackgroundExecutorSettings(
         androidDetails: AndroidBackgroundExecutorDetails(),
@@ -26,7 +26,7 @@ In this case, a static function is passed to the callback parameter
 ```dart
 class Example {
   Future<void> settingRefresh() async {
-    await AppBackgroundExecutor().createRefreshTask(
+    await FlutterBackgroundExecutor().createRefreshTask(
       callback: call,
       settings: BackgroundExecutorSettings(
         androidDetails: AndroidBackgroundExecutorDetails(),
@@ -47,7 +47,7 @@ or
 ```dart
 class Example {
   Future<void> settingRefresh() async {
-    await AppBackgroundExecutor().createRefreshTask(
+    await FlutterBackgroundExecutor().createRefreshTask(
       callback: call,
       settings: BackgroundExecutorSettings(
         androidDetails: AndroidBackgroundExecutorDetails(),
@@ -100,7 +100,7 @@ In order to set up a task for the first run, you need to pass the task identifie
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        SwiftAppBackgroundExecutorPlugin.taskIdentifier = "com.dsr-corporation.refresh-task"
+        SwiftFlutterBackgroundExecutorPlugin.taskIdentifier = "com.dsr-corporation.refresh-task"
         ...
         return super.application(application, didFinishLaunchingWithOptions: launchOptions);
     }

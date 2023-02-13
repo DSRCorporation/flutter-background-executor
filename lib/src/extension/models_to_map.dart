@@ -16,9 +16,9 @@
  *    limitations under the License.
  */
 
-import 'package:app_background_executor/src/constants/definitions.dart';
-import 'package:app_background_executor/src/models/android_refresh_task_details.dart';
-import 'package:app_background_executor/src/models/ios_refresh_task_details.dart';
+import 'package:flutter_background_executor/src/constants/definitions.dart';
+import 'package:flutter_background_executor/src/models/android_refresh_task_details.dart';
+import 'package:flutter_background_executor/src/models/ios_refresh_task_details.dart';
 
 extension AndroidRefreshDetailsMap on AndroidRefreshTaskDetails {
   Map<String, dynamic> toMap() => {

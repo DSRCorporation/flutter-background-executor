@@ -1,4 +1,4 @@
-group 'com.dsr_corporation.app_background_executor'
+group 'com.dsr_corporation.flutter_background_executor'
 version '1.0-SNAPSHOT'
 
 buildscript {

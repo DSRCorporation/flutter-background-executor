@@ -16,18 +16,11 @@
  *    limitations under the License.
  */
 
-import 'package:flutter_background_executor/src/models/received_message.dart';
-
-typedef MessageSender = Future<bool> Function({String? to, bool commonMessage, required String message});
-
-class EngineConnector {
-  final Stream<ReceivedMessage> messageStream;
-  final MessageSender messageSender;
-  final String currentTaskIdentifier;
-
-  EngineConnector({
-    required this.messageStream,
-    required this.messageSender,
-    required this.currentTaskIdentifier,
-  });
-}
+export 'src/flutter_background_executor.dart';
+export 'src/constants/tasks.dart';
+export 'src/models/android_refresh_task_details.dart';
+export 'src/models/create_immediately_task_result.dart';
+export 'src/models/engine_connector.dart';
+export 'src/models/ios_refresh_task_details.dart';
+export 'src/models/received_message.dart';
+export 'src/models/refresh_task_settings.dart';

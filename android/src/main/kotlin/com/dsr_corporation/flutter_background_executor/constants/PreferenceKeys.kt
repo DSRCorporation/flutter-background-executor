@@ -16,18 +16,19 @@
  *    limitations under the License.
  */
 
-import 'package:flutter_background_executor/src/models/received_message.dart';
+package com.dsr_corporation.flutter_background_executor.constants
 
-typedef MessageSender = Future<bool> Function({String? to, bool commonMessage, required String message});
-
-class EngineConnector {
-  final Stream<ReceivedMessage> messageStream;
-  final MessageSender messageSender;
-  final String currentTaskIdentifier;
-
-  EngineConnector({
-    required this.messageStream,
-    required this.messageSender,
-    required this.currentTaskIdentifier,
-  });
+object PreferenceKeys {
+    const val name = "com.dsr_corporation.flutter_background_executor.preferences"
+    const val callbackKey = "callback_key"
+    const val requiredNetworkType = "required_network_type"
+    const val requiresCharging = "requires_charging"
+    const val requiresDeviceIdle = "requires_device_idle"
+    const val requiresBatteryNotLow = "requires_battery_not_low"
+    const val requiresStorageNotLow = "requires_storage_not_low"
+    const val minUpdateDelay = "min_update_delay"
+    const val maxUpdateDelay = "max_update_delay"
+    const val initialDelay = "initial_delay"
+    const val repeatInterval = "repeat_interval"
+    const val flexInterval = "flex_interval"
 }
