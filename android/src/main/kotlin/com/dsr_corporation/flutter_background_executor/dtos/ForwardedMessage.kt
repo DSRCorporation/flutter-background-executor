@@ -16,18 +16,17 @@
  *    limitations under the License.
  */
 
-import 'package:flutter_background_executor/src/models/received_message.dart';
+package com.dsr_corporation.flutter_background_executor.dtos
 
-typedef MessageSender = Future<bool> Function({String? to, bool commonMessage, required String message});
+import com.dsr_corporation.flutter_background_executor.constants.Definitions
 
-class EngineConnector {
-  final Stream<ReceivedMessage> messageStream;
-  final MessageSender messageSender;
-  final String currentTaskIdentifier;
-
-  EngineConnector({
-    required this.messageStream,
-    required this.messageSender,
-    required this.currentTaskIdentifier,
-  });
+data class ForwardedMessage(
+    val from: String,
+    val message: String,
+) {
+    fun toMap(): Map<String, Any> = mapOf(
+        Definitions.fromParam to from,
+        Definitions.messageParam to message,
+    )
 }
+

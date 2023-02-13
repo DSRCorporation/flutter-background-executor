@@ -16,7 +16,7 @@
  *    limitations under the License.
  */
 
-import 'package:app_background_executor/app_background_executor.dart';
+import 'package:flutter_background_executor/flutter_background_executor.dart';
 
 class CreateImmediatelyBackgroundTaskResult {
   String identifier;

@@ -19,7 +19,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:app_background_executor/app_background_executor.dart';
+import 'package:flutter_background_executor/flutter_background_executor.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -34,19 +34,19 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _appBackgroundExecutor = AppBackgroundExecutor();
+  final _backgroundExecutor = FlutterBackgroundExecutor();
   String? _message;
   String? _taskStatus;
 
   Future<void> _startImmediatelyClick() async {
-    final result = await _appBackgroundExecutor.runImmediatelyBackgroundTask(
+    final result = await _backgroundExecutor.runImmediatelyBackgroundTask(
       callback: immediately,
       cancellable: true,
       withMessages: true,
     );
     result.connector?.messageStream.listen((event) {
     });
-    _appBackgroundExecutor.createConnector().messageStream.listen((event) {
+    _backgroundExecutor.createConnector().messageStream.listen((event) {
       if (!mounted) return;
       setState(() {
         _message = 'Message from ${event.from}:\n${event.content}';
@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _planRefreshTaskClick() async {
-    final response = await _appBackgroundExecutor.createRefreshTask(
+    final response = await _backgroundExecutor.createRefreshTask(
       callback: refresh,
       settings: RefreshTaskSettings(
         androidDetails: AndroidRefreshTaskDetails(initialDelay: Duration(seconds: 10)),
@@ -69,7 +69,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _checkBackgroundTaskClick() async {
-    final response = await _appBackgroundExecutor.isTaskRunning();
+    final response = await _backgroundExecutor.isTaskRunning();
     if (!mounted) return;
     setState(() {
       _taskStatus = response ? 'The background task is running' : 'The background task is not running';
@@ -77,7 +77,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _checkRefreshTaskClick() async {
-    final response = await _appBackgroundExecutor.isRefreshTaskRunning();
+    final response = await _backgroundExecutor.isRefreshTaskRunning();
     if (!mounted) return;
     setState(() {
       _taskStatus = response ? 'The refresh task is running' : 'The refresh task is not running';
@@ -85,7 +85,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _checkAnyTaskClick() async {
-    final response = await _appBackgroundExecutor.hasRunningTasks();
+    final response = await _backgroundExecutor.hasRunningTasks();
     if (!mounted) return;
     setState(() {
       _taskStatus = response ? 'Some task is running' : 'Some task is not running';
@@ -93,15 +93,15 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _stopBackgroundTaskClick() async {
-    await _appBackgroundExecutor.stopExecutingTask();
+    await _backgroundExecutor.stopExecutingTask();
   }
 
   Future<void> _stopRefreshTaskClick() async {
-    await _appBackgroundExecutor.stopRefreshTask();
+    await _backgroundExecutor.stopRefreshTask();
   }
 
   Future<void> _stopAllTaskClick() async {
-    await _appBackgroundExecutor.stopAllExecutingTasks();
+    await _backgroundExecutor.stopAllExecutingTasks();
   }
 
   @override

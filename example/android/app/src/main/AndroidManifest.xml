@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dsr_corporation.app_background_executor_example">
+    package="com.dsr_corporation.flutter_background_executor_example">
    <application
-        android:label="app_background_executor_example"
+        android:label="flutter_background_executor_example"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
-            android:name=".MainActivity"
+            android:name="com.dsr_corporation.flutter_background_executor_example.MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"

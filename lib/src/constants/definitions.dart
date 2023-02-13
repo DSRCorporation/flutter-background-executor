@@ -17,7 +17,7 @@
  */
 
 abstract class Definitions {
-  static const methodChannel = 'app_background_executor';
+  static const methodChannel = 'flutter_background_executor';
   static const backgroundMethodChannelSuffix = '_background_task_method_channel';
   static const backgroundEventChannelSuffix = '_background_task_event_channel';
 

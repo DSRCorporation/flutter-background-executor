@@ -36,12 +36,10 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.dsr_corporation.app_background_executor
-        pluginClass: AppBackgroundExecutorPlugin
+        package: com.dsr_corporation.flutter_background_executor
+        pluginClass: FlutterBackgroundExecutorPlugin
       ios:
-        pluginClass: AppBackgroundExecutorPlugin
-      macos:
-        pluginClass: AppBackgroundExecutorPlugin
+        pluginClass: FlutterBackgroundExecutorPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

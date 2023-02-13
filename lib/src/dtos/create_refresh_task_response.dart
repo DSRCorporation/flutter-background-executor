@@ -16,7 +16,7 @@
  *    limitations under the License.
  */
 
-import 'package:app_background_executor/src/constants/definitions.dart';
+import 'package:flutter_background_executor/src/constants/definitions.dart';
 
 class CreateRefreshTaskResponse {
   final bool isSuccess;

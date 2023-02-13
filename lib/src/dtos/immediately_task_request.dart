@@ -18,7 +18,7 @@
 
 import 'dart:ui';
 
-import 'package:app_background_executor/src/constants/definitions.dart';
+import 'package:flutter_background_executor/src/constants/definitions.dart';
 
 class ImmediatelyTaskRequest {
   final CallbackHandle callback;

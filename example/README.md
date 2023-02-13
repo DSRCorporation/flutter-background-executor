@@ -1,6 +1,6 @@
-# app_background_executor_example
+# flutter_background_executor_example
 
-Demonstrates how to use the app_background_executor plugin.
+Demonstrates how to use the flutter_background_executor plugin.
 
 ## Getting Started
 
