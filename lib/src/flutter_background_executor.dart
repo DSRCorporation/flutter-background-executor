@@ -62,11 +62,10 @@ class FlutterBackgroundExecutor {
     throw ErrorBackgroundExecutor(ErrorDescriptions.unsuccessfulCreate);
   }
 
-// todo need return connector with identifier
   Future<CreateImmediatelyBackgroundTaskResult> runImmediatelyBackgroundTask({
     required Function callback,
     String taskIdentifier = Tasks.defaultBackground,
-    String currentTaskIdentifier = Tasks.mainApplication, // need to change if create from background task
+    String currentTaskIdentifier = Tasks.mainApplication, // need to change if you are creating from background task
     bool cancellable = true,
     bool withMessages = true,
   }) async {
