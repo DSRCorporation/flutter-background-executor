@@ -51,22 +51,22 @@ class FlutterEngineRunner(
     }
 
     fun run() {
-        engine = FlutterEngine(context)
+        if (RunningTaskUtils.register(taskIdentifier)) {
+            engine = FlutterEngine(context)
 
-        if (!flutterLoader.initialized()) {
-            flutterLoader.startInitialization(context)
-        }
-
-        flutterLoader.ensureInitializationCompleteAsync(
-            /* applicationContext = */ context,
-            /* args = */ null,
-            /* callbackHandler = */ Handler(Looper.getMainLooper()),
-            /* callback = */ ::executeEngine
-        )
-        RunningTaskUtils.register(taskIdentifier)
-        if (cancellable) {
-            RunningTaskUtils.addStopCallback(taskIdentifier) {
-                stop(true)
+            if (!flutterLoader.initialized()) {
+                flutterLoader.startInitialization(context)
+            }
+            flutterLoader.ensureInitializationCompleteAsync(
+                /* applicationContext = */ context,
+                /* args = */ null,
+                /* callbackHandler = */ Handler(Looper.getMainLooper()),
+                /* callback = */ ::executeEngine
+            )
+            if (cancellable) {
+                RunningTaskUtils.addStopCallback(taskIdentifier) {
+                    stop(true)
+                }
             }
         }
     }

@@ -49,8 +49,9 @@ enum RunningTaskUtils {
         result(false)
     }
     
-    static func register(task key: RunningTaskKey) {
-        runningTasks.insert(key)
+    static func register(task key: RunningTaskKey) -> Bool {
+        let (result, _) = runningTasks.insert(key)
+        return result
     }
     
     static func unregister(task key: RunningTaskKey) {
