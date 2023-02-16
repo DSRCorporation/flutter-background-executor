@@ -60,9 +60,7 @@ object RunningTaskUtils {
         }
     }
 
-    internal fun register(key: RunningTaskKey) {
-        runningTasks.add(key)
-    }
+    internal fun register(key: RunningTaskKey): Boolean = runningTasks.add(key)
 
     internal fun unregister(key: RunningTaskKey) {
         runningTasks.remove(key)

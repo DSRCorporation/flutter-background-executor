@@ -37,7 +37,7 @@ class FlutterEngineRunner {
     }
     
     func run(operation: Int64, _ completion: @escaping () -> Void) {
-        guard let callbackInfo = FlutterCallbackCache.lookupCallbackInformation(operation) else {
+        guard let callbackInfo = FlutterCallbackCache.lookupCallbackInformation(operation), RunningTaskUtils.register(task: identifier) else {
             completion()
             return
         }
@@ -67,7 +67,6 @@ class FlutterEngineRunner {
             cleanupFlutterResources()
             completion()
         }
-        RunningTaskUtils.register(task: identifier)
         if supportCancel {
             RunningTaskUtils.add(for: identifier, stopCallback: stopTask)
         }
