@@ -18,11 +18,13 @@
 
 abstract class Definitions {
   static const methodChannel = 'flutter_background_executor';
-  static const backgroundMethodChannelSuffix = '_background_task_method_channel';
+  static const backgroundMethodChannelSuffix =
+      '_background_task_method_channel';
   static const backgroundEventChannelSuffix = '_background_task_event_channel';
 
   static const createRefreshTaskMethod = 'createRefreshTaskMethod';
-  static const runImmediatelyBackgroundTaskMethod = 'runImmediatelyBackgroundTaskMethod';
+  static const runImmediatelyBackgroundTaskMethod =
+      'runImmediatelyBackgroundTaskMethod';
   static const stopExecutingTasksMethod = 'stopExecutingTasksMethod';
   static const stopExecutingTaskMethod = 'stopExecutingTaskMethod';
   static const hasRunningTasksMethod = 'hasRunningTasksMethod';

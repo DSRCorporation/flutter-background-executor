@@ -6,6 +6,15 @@ and [immediate background task](#immediate-task). The refresh task logic is base
 [WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager) for Android
 and [BackgroundTasks](https://developer.apple.com/documentation/backgroundtasks) for iOS.
 
+## Installation
+
+In the `dependencies:` section of your `pubspec.yaml`, add the following line:
+
+```yaml
+dependencies:
+  flutter_background_executor: <latest_version>
+```
+
 ## Requirements
 
 Requires Dart SDK >=2.17.0 <3.0.0
@@ -122,10 +131,10 @@ To set up a scheduled refresh task on Android, you can change the following opti
 
 To set up a background task on iOS, you need to do the following:
 
-1. Need to add capability `Background Modes` ![image](ios_setting_images/1.png)
-2. Need to select `Background fetch` and `Background processing` ![image](ios_setting_images/2.png)
+1. Need to add capability `Background Modes` ![image](https://github.com/DSRCorporation/flutter-background-executor/ios_setting_images/1.png)
+2. Need to select `Background fetch` and `Background processing` ![image](https://github.com/DSRCorporation/flutter-background-executor/ios_setting_images/2.png)
 3. Need to set background task identifier in Info.plist
-   on `Permitted background task scheduler identifiers`(`BGTaskSchedulerPermittedIdentifiers`) ![image](ios_setting_images/3.png)
+   on `Permitted background task scheduler identifiers`(`BGTaskSchedulerPermittedIdentifiers`) ![image](https://github.com/DSRCorporation/flutter-background-executor/ios_setting_images/3.png)
 
 The required steps for configuring background work are now complete. But in this case, the task will
 be configured only on the second run. This is due to the fact that iOS allows you to configure

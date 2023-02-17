@@ -44,7 +44,9 @@ class CreateRefreshTaskRequest {
 
   Map<String, dynamic> toMap() => {
         Definitions.callbackParam: callback.toRawHandle(),
-        if (androidDetails != null) Definitions.androidDetailsParam: androidDetails?.toMap(),
-        if (iosDetails != null) Definitions.iosDetailsParam: iosDetails?.toMap(),
+        if (androidDetails != null)
+          Definitions.androidDetailsParam: androidDetails?.toMap(),
+        if (iosDetails != null)
+          Definitions.iosDetailsParam: iosDetails?.toMap(),
       };
 }

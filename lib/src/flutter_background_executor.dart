@@ -18,6 +18,8 @@
 
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_background_executor/src/constants/definitions.dart';
 import 'package:flutter_background_executor/src/constants/errors.dart';
 import 'package:flutter_background_executor/src/constants/tasks.dart';
@@ -31,8 +33,6 @@ import 'package:flutter_background_executor/src/models/engine_connector.dart';
 import 'package:flutter_background_executor/src/models/error_background_executor.dart';
 import 'package:flutter_background_executor/src/models/received_message.dart';
 import 'package:flutter_background_executor/src/models/refresh_task_settings.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FlutterBackgroundExecutor {
@@ -44,12 +44,15 @@ class FlutterBackgroundExecutor {
   }) async {
     final refreshSettings = settings ?? RefreshTaskSettings();
     final prefs = await SharedPreferences.getInstance();
-    prefs.setInt(Tasks.refreshTask, PluginUtilities.getCallbackHandle(callback)!.toRawHandle());
+    prefs.setInt(
+      Tasks.refreshTask,
+      PluginUtilities.getCallbackHandle(callback)!.toRawHandle(),
+    );
 
     final result = await methodChannel.invokeMapMethod<String, dynamic>(
       Definitions.createRefreshTaskMethod,
       CreateRefreshTaskRequest.from(
-        callback: runTask,
+        callback: _runTask,
         refreshSettings: refreshSettings,
       ).toMap(),
     );
@@ -65,17 +68,21 @@ class FlutterBackgroundExecutor {
   Future<CreateImmediatelyBackgroundTaskResult> runImmediatelyBackgroundTask({
     required Function callback,
     String taskIdentifier = Tasks.defaultBackground,
-    String currentTaskIdentifier = Tasks.mainApplication, // need to change if you are creating from background task
+    // need to change if you are creating from background task
+    String currentTaskIdentifier = Tasks.mainApplication,
     bool cancellable = true,
     bool withMessages = true,
   }) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setInt(taskIdentifier, PluginUtilities.getCallbackHandle(callback)!.toRawHandle());
+    prefs.setInt(
+      taskIdentifier,
+      PluginUtilities.getCallbackHandle(callback)!.toRawHandle(),
+    );
 
     final result = await methodChannel.invokeMethod<bool>(
       Definitions.runImmediatelyBackgroundTaskMethod,
       ImmediatelyTaskRequest.from(
-        callback: runTask,
+        callback: _runTask,
         taskIdentifier: taskIdentifier,
         cancellable: cancellable,
         withMessages: withMessages,
@@ -85,8 +92,12 @@ class FlutterBackgroundExecutor {
     if (result == null || !result) {
       throw ErrorBackgroundExecutor(ErrorDescriptions.unsuccessfulCreate);
     }
-    if (!withMessages) return CreateImmediatelyBackgroundTaskResult(taskIdentifier);
-    final eventChannel = EventChannel('$currentTaskIdentifier${Definitions.backgroundEventChannelSuffix}');
+    if (!withMessages) {
+      return CreateImmediatelyBackgroundTaskResult(taskIdentifier);
+    }
+    final eventChannel = EventChannel(
+      '$currentTaskIdentifier${Definitions.backgroundEventChannelSuffix}',
+    );
     return CreateImmediatelyBackgroundTaskResult(
       taskIdentifier,
       _createEngineConnector(
@@ -97,44 +108,73 @@ class FlutterBackgroundExecutor {
     );
   }
 
-  Future<bool> cancelTask({required String identifier}) async {
+  Future<bool> cancelTask({
+    required String identifier,
+  }) async {
     final request = CancelTaskRequest(taskIdentifier: identifier);
-    return await methodChannel.invokeMethod(Definitions.cancelTaskMethod, request.toMap());
+    return await methodChannel.invokeMethod(
+        Definitions.cancelTaskMethod, request.toMap());
   }
 
   Future<bool> cancelAllTasks() async {
-    return await methodChannel.invokeMethod(Definitions.cancelAllTasksMethod);
+    return await methodChannel.invokeMethod(
+      Definitions.cancelAllTasksMethod,
+    );
   }
 
   Future<bool> stopAllExecutingTasks() async {
-    return await methodChannel.invokeMethod(Definitions.stopExecutingTasksMethod);
+    return await methodChannel.invokeMethod(
+      Definitions.stopExecutingTasksMethod,
+    );
   }
 
-  Future<bool> stopExecutingTask([String identifier = Tasks.defaultBackground]) async {
-    return await methodChannel.invokeMethod(Definitions.stopExecutingTaskMethod, identifier);
+  Future<bool> stopExecutingTask([
+    String identifier = Tasks.defaultBackground,
+  ]) async {
+    return await methodChannel.invokeMethod(
+      Definitions.stopExecutingTaskMethod,
+      identifier,
+    );
   }
 
   Future<bool> stopRefreshTask() async {
-    return await methodChannel.invokeMethod(Definitions.stopExecutingTaskMethod, Tasks.refreshTask);
+    return await methodChannel.invokeMethod(
+      Definitions.stopExecutingTaskMethod,
+      Tasks.refreshTask,
+    );
   }
 
   Future<bool> hasRunningTasks() async {
     return await methodChannel.invokeMethod(Definitions.hasRunningTasksMethod);
   }
 
-  Future<bool> isTaskRunning([String identifier = Tasks.defaultBackground]) async {
-    return await methodChannel.invokeMethod(Definitions.isTaskRunningMethod, identifier);
+  Future<bool> isTaskRunning([
+    String identifier = Tasks.defaultBackground,
+  ]) async {
+    return await methodChannel.invokeMethod(
+      Definitions.isTaskRunningMethod,
+      identifier,
+    );
   }
 
   Future<bool> isRefreshTaskRunning() async {
-    return await methodChannel.invokeMethod(Definitions.isTaskRunningMethod, Tasks.refreshTask);
+    return await methodChannel.invokeMethod(
+      Definitions.isTaskRunningMethod,
+      Tasks.refreshTask,
+    );
   }
 
-  EngineConnector createConnector({String currentTaskIdentifier = Tasks.mainApplication}) {
-    final eventChannel = EventChannel('$currentTaskIdentifier${Definitions.backgroundEventChannelSuffix}');
+  EngineConnector createConnector({
+    String currentTaskIdentifier = Tasks.mainApplication,
+  }) {
+    final eventChannel = EventChannel(
+      '$currentTaskIdentifier${Definitions.backgroundEventChannelSuffix}',
+    );
     final methodChannel = currentTaskIdentifier == Tasks.mainApplication
         ? this.methodChannel
-        : MethodChannel('$currentTaskIdentifier${Definitions.backgroundMethodChannelSuffix}');
+        : MethodChannel(
+            '$currentTaskIdentifier${Definitions.backgroundMethodChannelSuffix}',
+          );
     return _createEngineConnector(
       currentTaskIdentifier: currentTaskIdentifier,
       methodChannel: methodChannel,
@@ -144,7 +184,7 @@ class FlutterBackgroundExecutor {
 }
 
 @pragma('vm:entry-point')
-Future<void> runTask(List<String>? arguments) async {
+Future<void> _runTask(List<String>? arguments) async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   final String methodChannelName;
@@ -153,13 +193,15 @@ Future<void> runTask(List<String>? arguments) async {
   if (arguments != null && arguments.isNotEmpty) {
     if (arguments.length > 1) {
       taskIdentifier = arguments[1];
-      methodChannelName = "$taskIdentifier${Definitions.backgroundMethodChannelSuffix}";
+      methodChannelName =
+          "$taskIdentifier${Definitions.backgroundMethodChannelSuffix}";
     } else {
       taskIdentifier = Tasks.refreshTask;
       methodChannelName = taskIdentifier;
     }
     if (arguments[0] == "true") {
-      eventChannelName = "$taskIdentifier${Definitions.backgroundEventChannelSuffix}";
+      eventChannelName =
+          "$taskIdentifier${Definitions.backgroundEventChannelSuffix}";
     } else {
       eventChannelName = null;
     }
@@ -189,9 +231,19 @@ Future<void> runTask(List<String>? arguments) async {
       }
     }
 
-    await methodChannel.invokeMethod(Definitions.backgroundTaskEndMethod, {Definitions.isSuccessParam: true});
+    await methodChannel.invokeMethod(
+      Definitions.backgroundTaskEndMethod,
+      {
+        Definitions.isSuccessParam: true,
+      },
+    );
   } catch (e) {
-    await methodChannel.invokeMethod(Definitions.backgroundTaskEndMethod, {Definitions.isSuccessParam: false});
+    await methodChannel.invokeMethod(
+      Definitions.backgroundTaskEndMethod,
+      {
+        Definitions.isSuccessParam: false,
+      },
+    );
   }
 }
 
@@ -202,7 +254,9 @@ EngineConnector _createEngineConnector({
 }) {
   return EngineConnector(
     currentTaskIdentifier: currentTaskIdentifier,
-    messageStream: eventChannel.receiveBroadcastStream().mapWhereType<Map, ReceivedMessage>(ReceivedMessage.from),
+    messageStream: eventChannel
+        .receiveBroadcastStream()
+        .mapWhereType<Map, ReceivedMessage>(ReceivedMessage.from),
     messageSender: ({
       String? to,
       bool commonMessage = false,

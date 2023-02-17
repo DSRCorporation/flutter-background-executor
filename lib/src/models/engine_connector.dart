@@ -18,7 +18,11 @@
 
 import 'package:flutter_background_executor/src/models/received_message.dart';
 
-typedef MessageSender = Future<bool> Function({String? to, bool commonMessage, required String message});
+typedef MessageSender = Future<bool> Function({
+  String? to,
+  bool commonMessage,
+  required String message,
+});
 
 class EngineConnector {
   final Stream<ReceivedMessage> messageStream;
