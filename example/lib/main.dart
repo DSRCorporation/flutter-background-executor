@@ -44,8 +44,7 @@ class _MyAppState extends State<MyApp> {
       cancellable: true,
       withMessages: true,
     );
-    result.connector?.messageStream.listen((event) {
-    });
+    result.connector?.messageStream.listen((event) {});
     _backgroundExecutor.createConnector().messageStream.listen((event) {
       if (!mounted) return;
       setState(() {
@@ -58,8 +57,10 @@ class _MyAppState extends State<MyApp> {
     final response = await _backgroundExecutor.createRefreshTask(
       callback: refresh,
       settings: RefreshTaskSettings(
-        androidDetails: AndroidRefreshTaskDetails(initialDelay: Duration(seconds: 10)),
-        iosDetails: IosRefreshTaskDetails(taskIdentifier: 'com.dsr_corporation.task1'),
+        androidDetails:
+            AndroidRefreshTaskDetails(initialDelay: Duration(seconds: 10)),
+        iosDetails:
+            IosRefreshTaskDetails(taskIdentifier: 'com.dsr_corporation.task1'),
       ),
     );
     if (Platform.isIOS) {
@@ -72,7 +73,9 @@ class _MyAppState extends State<MyApp> {
     final response = await _backgroundExecutor.isTaskRunning();
     if (!mounted) return;
     setState(() {
-      _taskStatus = response ? 'The background task is running' : 'The background task is not running';
+      _taskStatus = response
+          ? 'The background task is running'
+          : 'The background task is not running';
     });
   }
 
@@ -80,7 +83,9 @@ class _MyAppState extends State<MyApp> {
     final response = await _backgroundExecutor.isRefreshTaskRunning();
     if (!mounted) return;
     setState(() {
-      _taskStatus = response ? 'The refresh task is running' : 'The refresh task is not running';
+      _taskStatus = response
+          ? 'The refresh task is running'
+          : 'The refresh task is not running';
     });
   }
 
@@ -88,7 +93,8 @@ class _MyAppState extends State<MyApp> {
     final response = await _backgroundExecutor.hasRunningTasks();
     if (!mounted) return;
     setState(() {
-      _taskStatus = response ? 'Some task is running' : 'Some task is not running';
+      _taskStatus =
+          response ? 'Some task is running' : 'Some task is not running';
     });
   }
 
@@ -150,23 +156,32 @@ class _MyAppState extends State<MyApp> {
 
   Widget get _taskStatusWidget => Text(_taskStatus ?? '');
 
-  Widget get _startImmediately => _button(text: 'Start immediately task', onClick: _startImmediatelyClick);
+  Widget get _startImmediately =>
+      _button(text: 'Start immediately task', onClick: _startImmediatelyClick);
 
-  Widget get _planRefreshTask => _button(text: 'Plan refresh task', onClick: _planRefreshTaskClick);
+  Widget get _planRefreshTask =>
+      _button(text: 'Plan refresh task', onClick: _planRefreshTaskClick);
 
-  Widget get _checkTask => _button(text: 'Check background task', onClick: _checkBackgroundTaskClick);
+  Widget get _checkTask => _button(
+      text: 'Check background task', onClick: _checkBackgroundTaskClick);
 
-  Widget get _checkRefreshTask => _button(text: 'Check refresh task', onClick: _checkRefreshTaskClick);
+  Widget get _checkRefreshTask =>
+      _button(text: 'Check refresh task', onClick: _checkRefreshTaskClick);
 
-  Widget get _checkAnyTask => _button(text: 'Check all tasks', onClick: _checkAnyTaskClick);
+  Widget get _checkAnyTask =>
+      _button(text: 'Check all tasks', onClick: _checkAnyTaskClick);
 
-  Widget get _stopBackgroundTask => _button(text: 'Stop background task', onClick: _stopBackgroundTaskClick);
+  Widget get _stopBackgroundTask =>
+      _button(text: 'Stop background task', onClick: _stopBackgroundTaskClick);
 
-  Widget get _stopRefreshTask => _button(text: 'Stop refresh task', onClick: _stopRefreshTaskClick);
+  Widget get _stopRefreshTask =>
+      _button(text: 'Stop refresh task', onClick: _stopRefreshTaskClick);
 
-  Widget get _stopAllTask => _button(text: 'Stop all tasks', onClick: _stopAllTaskClick);
+  Widget get _stopAllTask =>
+      _button(text: 'Stop all tasks', onClick: _stopAllTaskClick);
 
-  Widget _button({required String text, required VoidCallback onClick}) => ElevatedButton(
+  Widget _button({required String text, required VoidCallback onClick}) =>
+      ElevatedButton(
         onPressed: onClick,
         child: Text(text),
       );

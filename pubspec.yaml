@@ -1,6 +1,6 @@
 name: flutter_background_executor
-description: A new Flutter project.
-version: 0.0.1
+description: This plugin is created for background tasks. It supports scheduled refresh task and immediate background task.
+version: 0.0.2
 homepage: https://github.com/DSRCorporation/flutter-background-executor
 
 environment:

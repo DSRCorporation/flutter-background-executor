@@ -16,8 +16,16 @@
  *    limitations under the License.
  */
 
+/// iOS refresh task settings.
 class IosRefreshTaskDetails {
+  /// Identifier of the refresh task.
+  ///
+  /// You also need to set up an iOS project for an available scheduled update task.
+  /// This process is described in the README file.
+  /// If you set the iOS refresh task identifier in the native part, you still set the same identifier here.
   final String taskIdentifier;
+
+  /// The minimum delay in seconds before the first start of the refresh task.
   final double taskDelay;
 
   IosRefreshTaskDetails({

@@ -18,8 +18,15 @@
 
 import 'package:flutter_background_executor/flutter_background_executor.dart';
 
+/// Result of create immediately background task.
 class CreateImmediatelyBackgroundTaskResult {
+  /// Identifier of the created task
   String identifier;
+
+  /// Object for communicate with other tasks.
+  ///
+  /// Can be null if you don't want to communicate with other tasks.
+  /// See [FlutterBackgroundExecutor.runImmediatelyBackgroundTask]
   EngineConnector? connector;
 
   CreateImmediatelyBackgroundTaskResult(
