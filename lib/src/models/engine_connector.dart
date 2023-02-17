@@ -18,6 +18,9 @@
 
 import 'package:flutter_background_executor/src/models/received_message.dart';
 
+/// Send message function.
+///
+/// You can send [message] to a specific task if you set the [to] parameter, or to all other tasks if you set the [commonMessage] value to `true`.
 typedef MessageSender = Future<bool> Function({
   String? to,
   bool commonMessage,
@@ -25,8 +28,13 @@ typedef MessageSender = Future<bool> Function({
 });
 
 class EngineConnector {
+  /// Stream for receive messages.
   final Stream<ReceivedMessage> messageStream;
+
+  /// Send message function.
   final MessageSender messageSender;
+
+  /// The identifier of current task.
   final String currentTaskIdentifier;
 
   EngineConnector({

@@ -36,8 +36,12 @@ import 'package:flutter_background_executor/src/models/refresh_task_settings.dar
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FlutterBackgroundExecutor {
-  final methodChannel = const MethodChannel(Definitions.methodChannel);
+  final _methodChannel = const MethodChannel(Definitions.methodChannel);
 
+  /// This methods schedules a future refresh task with a separate Flutter Engine.
+  ///
+  /// [callback] is the task function.
+  /// [settings] is the refresh task settings.
   Future<String?> createRefreshTask({
     required Function callback,
     RefreshTaskSettings? settings,
@@ -49,7 +53,7 @@ class FlutterBackgroundExecutor {
       PluginUtilities.getCallbackHandle(callback)!.toRawHandle(),
     );
 
-    final result = await methodChannel.invokeMapMethod<String, dynamic>(
+    final result = await _methodChannel.invokeMapMethod<String, dynamic>(
       Definitions.createRefreshTaskMethod,
       CreateRefreshTaskRequest.from(
         callback: _runTask,
@@ -65,10 +69,16 @@ class FlutterBackgroundExecutor {
     throw ErrorBackgroundExecutor(ErrorDescriptions.unsuccessfulCreate);
   }
 
+  /// This methods runs a background task with a separate Flutter Engine.
+  ///
+  /// [callback] is the task function.
+  /// [taskIdentifier] is the identifier of the immediate task. It is used to manage background tasks and communicate between background tasks and the application.
+  /// [currentTaskIdentifier] is the identifier of the current task. Used to create a connection object. You need to change it if you are creating from background task.
+  /// [cancellable] sets whether it is allowed to stop the task not only upon its completion, but also by the command.
+  /// [withMessages] sets whether it is allowed to send messages to other tasks and receive their messages is allowed.
   Future<CreateImmediatelyBackgroundTaskResult> runImmediatelyBackgroundTask({
     required Function callback,
     String taskIdentifier = Tasks.defaultBackground,
-    // need to change if you are creating from background task
     String currentTaskIdentifier = Tasks.mainApplication,
     bool cancellable = true,
     bool withMessages = true,
@@ -79,7 +89,7 @@ class FlutterBackgroundExecutor {
       PluginUtilities.getCallbackHandle(callback)!.toRawHandle(),
     );
 
-    final result = await methodChannel.invokeMethod<bool>(
+    final result = await _methodChannel.invokeMethod<bool>(
       Definitions.runImmediatelyBackgroundTaskMethod,
       ImmediatelyTaskRequest.from(
         callback: _runTask,
@@ -102,68 +112,77 @@ class FlutterBackgroundExecutor {
       taskIdentifier,
       _createEngineConnector(
         currentTaskIdentifier: currentTaskIdentifier,
-        methodChannel: methodChannel,
+        methodChannel: _methodChannel,
         eventChannel: eventChannel,
       ),
     );
   }
 
+  /// This method cancels the scheduled refresh task with [identifier].
   Future<bool> cancelTask({
     required String identifier,
   }) async {
     final request = CancelTaskRequest(taskIdentifier: identifier);
-    return await methodChannel.invokeMethod(
+    return await _methodChannel.invokeMethod(
         Definitions.cancelTaskMethod, request.toMap());
   }
 
+  /// This method cancels all scheduled refresh task.
   Future<bool> cancelAllTasks() async {
-    return await methodChannel.invokeMethod(
+    return await _methodChannel.invokeMethod(
       Definitions.cancelAllTasksMethod,
     );
   }
 
+  /// This method stops all background tasks.
   Future<bool> stopAllExecutingTasks() async {
-    return await methodChannel.invokeMethod(
+    return await _methodChannel.invokeMethod(
       Definitions.stopExecutingTasksMethod,
     );
   }
 
+  /// This method stops the task with [identifier].
   Future<bool> stopExecutingTask([
     String identifier = Tasks.defaultBackground,
   ]) async {
-    return await methodChannel.invokeMethod(
+    return await _methodChannel.invokeMethod(
       Definitions.stopExecutingTaskMethod,
       identifier,
     );
   }
 
+  /// This method stops a refresh task.
   Future<bool> stopRefreshTask() async {
-    return await methodChannel.invokeMethod(
+    return await _methodChannel.invokeMethod(
       Definitions.stopExecutingTaskMethod,
       Tasks.refreshTask,
     );
   }
 
+  /// This method checks if any tasks are currently running.
   Future<bool> hasRunningTasks() async {
-    return await methodChannel.invokeMethod(Definitions.hasRunningTasksMethod);
+    return await _methodChannel.invokeMethod(Definitions.hasRunningTasksMethod);
   }
 
+  /// This method checks if the task with [identifier] is currently running.
   Future<bool> isTaskRunning([
     String identifier = Tasks.defaultBackground,
   ]) async {
-    return await methodChannel.invokeMethod(
+    return await _methodChannel.invokeMethod(
       Definitions.isTaskRunningMethod,
       identifier,
     );
   }
 
+  /// This method checks if a refresh task is currently running.
   Future<bool> isRefreshTaskRunning() async {
-    return await methodChannel.invokeMethod(
+    return await _methodChannel.invokeMethod(
       Definitions.isTaskRunningMethod,
       Tasks.refreshTask,
     );
   }
 
+  /// This method creates [EngineConnector] for a task with [currentTaskIdentifier].
   EngineConnector createConnector({
     String currentTaskIdentifier = Tasks.mainApplication,
   }) {
@@ -171,7 +190,7 @@ class FlutterBackgroundExecutor {
       '$currentTaskIdentifier${Definitions.backgroundEventChannelSuffix}',
     );
     final methodChannel = currentTaskIdentifier == Tasks.mainApplication
-        ? this.methodChannel
+        ? this._methodChannel
         : MethodChannel(
             '$currentTaskIdentifier${Definitions.backgroundMethodChannelSuffix}',
           );

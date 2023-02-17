@@ -18,8 +18,12 @@
 
 import 'package:flutter_background_executor/src/constants/definitions.dart';
 
+/// This class contains information about message received from another task.
 class ReceivedMessage {
+  /// Message author
   String from;
+
+  /// Message content
   String content;
 
   ReceivedMessage({

@@ -19,8 +19,12 @@
 import 'package:flutter_background_executor/src/models/android_refresh_task_details.dart';
 import 'package:flutter_background_executor/src/models/ios_refresh_task_details.dart';
 
+/// Refresh task settings.
 class RefreshTaskSettings {
+  /// Settings for Android.
   final AndroidRefreshTaskDetails? androidDetails;
+
+  /// Settings for iOS.
   final IosRefreshTaskDetails? iosDetails;
 
   RefreshTaskSettings({

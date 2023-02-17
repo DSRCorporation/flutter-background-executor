@@ -22,16 +22,36 @@ const _initialDelay = Duration(minutes: 3);
 const _repeatInterval = Duration(minutes: 15);
 const _flexInterval = Duration(minutes: 15);
 
+/// Android refresh task settings.
 class AndroidRefreshTaskDetails {
+  /// The type of network required for the work to run.
   final AndroidNetworkType requiredNetworkType;
+
+  /// Whether device should be charging for the work to run.
   final bool requiresCharging;
+
+  /// Whether device should be idle for the work to run(Android SDK 23+).
   final bool requiresDeviceIdle;
+
+  /// Whether the device's battery level must be acceptable for the work to run.
   final bool requiresBatteryNotLow;
+
+  /// Whether the device's available storage should be at an acceptable level for the work to run.
   final bool requiresStorageNotLow;
+
+  /// Sets the delay that is allowed from the time a content.
   final Duration minUpdateDelay;
+
+  /// Sets the maximum delay that is allowed from the first time a content.
   final Duration maxUpdateDelay;
+
+  /// Sets an initial delay for the work.
   final Duration initialDelay;
+
+  /// The repeat interval.
   final Duration repeatInterval;
+
+  /// The duration for which this work repeats from the end of the repeatInterval.
   final Duration flexInterval;
 
   AndroidRefreshTaskDetails({
@@ -48,6 +68,7 @@ class AndroidRefreshTaskDetails {
   });
 }
 
+/// Required network type for the Android refresh task.
 enum AndroidNetworkType {
   /// A network is not required for this work.
   notRequired,

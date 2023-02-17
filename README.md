@@ -118,7 +118,7 @@ To set up a scheduled refresh task on Android, you can change the following opti
 |:----------------------|--------------------|----------------------------------------------------------------------------------------------|--------------------------------|
 | requiredNetworkType   | AndroidNetworkType | The type of network required for the work to run.                                            | AndroidNetworkType.notRequired |
 | requiresCharging      | bool               | Whether device should be charging for the work to run.                                       | false                          |
-| requiresDeviceIdle    | bool               | Whether device should be idle for the work to run(Android SDK 23+)                           | false                          |
+| requiresDeviceIdle    | bool               | Whether device should be idle for the work to run(Android SDK 23+).                          | false                          |
 | requiresBatteryNotLow | bool               | Whether the device's battery level must be acceptable for the work to run.                   | false                          |
 | requiresStorageNotLow | bool               | Whether the device's available storage should be at an acceptable level for the work to run. | false                          |
 | minUpdateDelay        | Duration           | Sets the delay that is allowed from the time a content.                                      | Duration(minutes: 15)          |
